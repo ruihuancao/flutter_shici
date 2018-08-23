@@ -1,0 +1,77 @@
+import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
+
+class PageMessageWidget extends StatelessWidget {
+  const PageMessageWidget({
+    Key key,
+    @required this.title,
+    @required this.description,
+    this.actionButtonKey,
+    this.onActionButtonTapped,
+  }) : super(key: key);
+
+  final Key actionButtonKey;
+  final String title;
+  final String description;
+  final VoidCallback onActionButtonTapped;
+
+  Widget _buildActionButton(BuildContext context) {
+    if (onActionButtonTapped == null) {
+      return null;
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 12.0),
+      child: FlatButton(
+        key: actionButtonKey,
+        onPressed: onActionButtonTapped,
+        child: Text(
+          'TRY AGAIN',
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var content = <Widget>[
+      const CircleAvatar(
+        child: Icon(
+          Icons.info_outline,
+          color: Colors.black54,
+          size: 52.0,
+        ),
+        backgroundColor: Colors.black12,
+        radius: 42.0,
+      ),
+      const SizedBox(height: 16.0),
+      Text(
+        title,
+        style: const TextStyle(fontSize: 24.0),
+      ),
+      const SizedBox(height: 8.0),
+      Text(
+        description,
+        textAlign: TextAlign.center,
+      ),
+    ];
+
+    Widget button = _buildActionButton(context);
+    if(button != null){
+      content.add(button);
+    }
+
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: content,
+          ),
+        ),
+      ),
+    );
+  }
+}
